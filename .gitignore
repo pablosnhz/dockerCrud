@@ -1,0 +1,21 @@
+# archivos sensibles
+**/appsettings.*.json
+**/appsettings.json
+**/.env
+
+# docker
+sql_data/
+docker-compose.override.yml
+**/Dockerfile
+
+# angular
+node_modules/
+dist/
+.angular/
+.env
+
+# .NET
+bin/
+obj/
+*.user
+*.suo

@@ -1,0 +1,92 @@
+<link
+  href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+  rel="stylesheet"
+/>
+<link
+  href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+  rel="stylesheet"
+/>
+
+<div class="flex h-screen items-center justify-center h-30">
+  <div class="w-[600px] max-w-6xl">
+    <div class="flex justify-end w-full">
+      <button
+        class="bg-green-500 font-bold hover:bg-green-600 text-white px-4 py-2 rounded-md shadow"
+        (click)="showModal = true"
+      >
+        Add Product
+      </button>
+    </div>
+
+    <table class="table text-gray-400 border-separate space-y-6 text-sm w-full">
+      <thead class="bg-gray-800 text-gray-500">
+        <tr>
+          <th class="p-3">ID</th>
+          <th class="p-3 text-left">Name</th>
+          <th class="p-3 text-left">Price</th>
+          <th class="p-3">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of datos; track item.id) {
+
+        <tr class="bg-gray-800">
+          <td class="p-3 text-center">{{ item.id }}</td>
+          <td class="p-3">
+            <div class="flex items-center">
+              <img
+                class="rounded-full h-12 w-12 object-cover"
+                src="https://images.unsplash.com/photo-1613588718956-c2e80305bf61?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                alt="unsplash image"
+              />
+              <div class="ml-3">
+                <div>{{ item.name | titlecase }}</div>
+              </div>
+            </div>
+          </td>
+          <td class="p-3 font-bold">{{ item.price | currency }}</td>
+          <td class="p-3 text-center">
+            <a href="#" class="text-gray-400 hover:text-gray-100 mx-2">
+              <i
+                class="material-icons-outlined text-base hover:bg-yellow-400 hover:rounded-md"
+                (click)="editProduct(item)"
+                >edit</i
+              >
+            </a>
+            <a href="#" class="text-gray-400 hover:text-gray-100 ml-2">
+              <i
+                class="material-icons-round text-base hover:bg-red-600 hover:rounded-md"
+                (click)="deleteProduct(item.id)"
+                >delete_outline</i
+              >
+            </a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    @if (showModal) {
+    <div class="modal-overlay">
+      <div class="modal-box">
+        <h2>{{ editar ? "Editar" : "Agregar" }} producto</h2>
+        <label>
+          Nombre:
+          <input [(ngModel)]="form.name" placeholder="Nombre del producto" />
+        </label>
+        <label>
+          Precio:
+          <input type="number" [(ngModel)]="form.price" placeholder="Precio" />
+        </label>
+        <div class="modal-actions">
+          <button class="btn save" (click)="updateSaveProduct()">
+            Guardar
+          </button>
+          <button class="btn cancel" (click)="cancel()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<router-outlet />

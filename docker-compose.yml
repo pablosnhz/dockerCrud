@@ -1,0 +1,37 @@
+# version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./appCrud
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./httpCrud
+      dockerfile: Dockerfile
+    ports:
+      - "5055:5055"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__CadenaSql=Server=db;Database=fakes;User Id=sa;Password=seraestamiclave?;Encrypt=false;
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=seraestamiclave?
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
